@@ -4,6 +4,7 @@ using InfraStractur.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InfraStractur.Migrations
 {
     [DbContext(typeof(HR_Connect))]
-    partial class HR_ConnectModelSnapshot : ModelSnapshot
+    [Migration("20250517032336_x")]
+    partial class x
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,17 +54,6 @@ namespace InfraStractur.Migrations
                         .IsUnique();
 
                     b.ToTable("accounts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d3d4359a-0036-483b-bf10-59d1a0833871"),
-                            EmployeeId = new Guid("d3d4359a-0036-483b-bf10-59d1a0833870"),
-                            IsActive = true,
-                            Password = "xxx",
-                            Role = 0,
-                            UserName = "xxx"
-                        });
                 });
 
             modelBuilder.Entity("Models.Model.Attendence", b =>
@@ -108,15 +100,6 @@ namespace InfraStractur.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("departments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d3d4359a-0036-483b-bf10-59d1a0833872"),
-                            DepartmentName = "x",
-                            IsActive = true,
-                            Type_Departmint = 0
-                        });
                 });
 
             modelBuilder.Entity("Models.Model.Employee", b =>
@@ -158,20 +141,6 @@ namespace InfraStractur.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("employees");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d3d4359a-0036-483b-bf10-59d1a0833870"),
-                            AccountId = new Guid("d3d4359a-0036-483b-bf10-59d1a0833871"),
-                            AddedEmployee = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartmentId = new Guid("d3d4359a-0036-483b-bf10-59d1a0833872"),
-                            FirstName = "محمد",
-                            IsActive = true,
-                            LastName = "الزهير",
-                            MiddleName = "علي",
-                            Position = "مدير موارد بشرية"
-                        });
                 });
 
             modelBuilder.Entity("Models.Model.Evaluation", b =>

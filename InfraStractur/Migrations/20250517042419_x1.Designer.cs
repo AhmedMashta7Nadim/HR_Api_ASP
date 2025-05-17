@@ -4,6 +4,7 @@ using InfraStractur.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InfraStractur.Migrations
 {
     [DbContext(typeof(HR_Connect))]
-    partial class HR_ConnectModelSnapshot : ModelSnapshot
+    [Migration("20250517042419_x1")]
+    partial class x1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,17 +54,6 @@ namespace InfraStractur.Migrations
                         .IsUnique();
 
                     b.ToTable("accounts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d3d4359a-0036-483b-bf10-59d1a0833871"),
-                            EmployeeId = new Guid("d3d4359a-0036-483b-bf10-59d1a0833870"),
-                            IsActive = true,
-                            Password = "xxx",
-                            Role = 0,
-                            UserName = "xxx"
-                        });
                 });
 
             modelBuilder.Entity("Models.Model.Attendence", b =>

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using InfraStractur.Relationships;
+﻿using InfraStractur.Relationships;
 using Microsoft.EntityFrameworkCore;
 using Models.Model;
 
 namespace InfraStractur.Data
 {
-    public class HR_Connect:DbContext
+    public class HR_Connect : DbContext
     {
         public DbSet<Employee> employees { get; set; }
         public DbSet<Account> accounts { get; set; }
@@ -29,10 +24,11 @@ namespace InfraStractur.Data
             optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=HR_Api_2;");
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             Relationships_Models.ModelRelation(modelBuilder);
+            await Relationships_Models.SeedUser(modelBuilder);
         }
 
 
