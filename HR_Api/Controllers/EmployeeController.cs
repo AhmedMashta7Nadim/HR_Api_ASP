@@ -1,11 +1,10 @@
-﻿using AutoMapper;
-using InfraStractur._AutoMapper;
-using InfraStractur.Data;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Models.DTO;
 using Models.Model;
+using Models.Summary;
+using InfraStractur.Repository.GenericRepository;
+using InfraStractur.Repository.RepositoryModels;
 
 namespace HR_Api.Controllers
 {
@@ -13,52 +12,89 @@ namespace HR_Api.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly HR_Connect context;
-        private readonly IMapper mapper;
+        private readonly RepositoryEmployee repository;
 
-        public EmployeeController(
-            HR_Connect context,
-            IMapper mapper
-            )
+        public EmployeeController(RepositoryEmployee repository)
         {
-            this.context = context;
-            this.mapper = mapper;
+            this.repository = repository;
         }
+
+        // Get all employees (summary or full)
         [HttpGet]
-        public async Task<ActionResult<List<Employee>>> GetEmployees()
+        public async Task<ActionResult<List<EmployeeSummary>>> GetEmployees([FromQuery] bool isSummary = true)
         {
-            var get = await context.employees.ToListAsync();
-
-            return Ok(get);
+            var result = await repository.GetAsyncAll<EmployeeSummary>(isSummary);
+            return Ok(result);
         }
 
-        [HttpGet("getEmpId/{id}")]
-        public async Task<ActionResult<EmployeeDTO>> GetEmployeeById(Guid id)
+        // Get employee by ID (summary or full)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<EmployeeDTO>> GetEmployeeById(Guid id, [FromQuery] bool isSummary = true)
         {
-            var employee = await context.employees.FindAsync(id);
+            var employee = await repository.GetAsyncId<EmployeeDTO>(id, isSummary);
             if (employee == null)
                 return NotFound();
 
-            var employeeDTO = mapper.Map<EmployeeDTO>(employee);
-            return Ok(employeeDTO);
+            return Ok(employee);
         }
 
-        [HttpPost("addEmp")]
-        public async Task<ActionResult<EmployeeDTO>> AddEmployee([FromForm] EmployeeDTO employeeDTO)
+        // Add new employee
+        [HttpPost]
+        public async Task<ActionResult> AddEmployee([FromForm] EmployeeDTO employeeDTO)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            var employee = mapper.Map<Employee>(employeeDTO);
-            await context.employees.AddAsync(employee);
-            await context.SaveChangesAsync();
-
-            var createdEmployeeDTO = mapper.Map<EmployeeDTO>(employee);
-
-            return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id }, createdEmployeeDTO);
+            await repository.AddData(employeeDTO);
+            return Ok("Employee added successfully.");
         }
 
+        // Delete employee permanently
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteEmployee(Guid id)
+        {
+            try
+            {
+                await repository.Delete(id);
+                return Ok("Employee deleted successfully.");
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        // Soft delete employee (set IsDeleted = true)
+        [HttpPatch("soft-delete/{id}")]
+        public async Task<ActionResult> SoftDeleteEmployee(Guid id)
+        {
+            try
+            {
+                await repository.SoftDelete(id);
+                return Ok("Employee soft deleted successfully.");
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        // Update employee using PATCH
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> UpdateEmployee(Guid id, [FromBody] JsonPatchDocument<EmployeeDTO> patchDoc)
+        {
+            if (patchDoc == null)
+                return BadRequest("Invalid patch document.");
+
+            try
+            {
+                await repository.UpdateData(id, patchDoc);
+                return Ok("Employee updated successfully.");
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
     }
 }

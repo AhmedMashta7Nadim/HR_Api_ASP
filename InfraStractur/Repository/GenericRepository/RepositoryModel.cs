@@ -83,12 +83,12 @@ namespace InfraStractur.Repository.GenericRepository
             {
                 throw new KeyNotFoundException($"Entity with Id {id} not found.");
             }
-            var prop = typeof(T).GetProperty("IsDeleted");
+            var prop = typeof(T).GetProperty("IsActive");
             if (prop == null)
             {
                 throw new InvalidOperationException("Entity does not have an 'IsDeleted' property.");
             }
-            prop.SetValue(entity, true);
+            prop.SetValue(entity, false);
             await context.SaveChangesAsync();
         }
         public async Task UpdateData(Guid id, JsonPatchDocument<Z> patchDoc)

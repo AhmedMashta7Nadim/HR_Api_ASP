@@ -1,5 +1,6 @@
 
 using InfraStractur.Data;
+using InfraStractur.RigestarPrograming;
 
 namespace HR_Api
 {
@@ -20,8 +21,7 @@ namespace HR_Api
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+            Rigestar.AddRepositories(builder.Services);
 
 
             var app = builder.Build();

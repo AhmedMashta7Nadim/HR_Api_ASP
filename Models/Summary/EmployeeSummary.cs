@@ -13,6 +13,8 @@ namespace Models.Summary
         public required string LastName { get; set; }
         public required string MiddleName { get; set; }
         public required string Position { get; set; }
-        public DateTime AddedEmployee { get; set; } = DateTime.UtcNow;
+        public DateTime AddedEmployee { get; set; }
+        public Guid DepartmentId { get; set; }
+
     }
 }
