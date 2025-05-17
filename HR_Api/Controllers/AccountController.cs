@@ -8,6 +8,8 @@ using Models.DTO;
 using Models.Summary;
 using Microsoft.AspNetCore.JsonPatch;
 using InfraStractur.Repository.RepositoryModels;
+using Auth.Authentication_Models;
+using InfraStractur.Migrations;
 
 namespace HR_Api.Controllers
 {
@@ -16,10 +18,15 @@ namespace HR_Api.Controllers
     public class AccountController : ControllerBase
     {
         private readonly RepositoryAccount repo;
+        private readonly ITokenServices token;
 
-        public AccountController(RepositoryAccount repo)
+        public AccountController(
+            RepositoryAccount repo,
+            ITokenServices token
+            )
         {
             this.repo = repo;
+            this.token = token;
         }
 
         [HttpGet]
@@ -61,6 +68,17 @@ namespace HR_Api.Controllers
             await repo.UpdateData(id, patchDoc);
             return Ok();
         }
+        [HttpPost("LogIn")]
+        public async Task<ActionResult> LogIn(LogIn logIn)
+        {
+            var login = await token.GeneretorToken(logIn);
+            if(login == null)
+            {
+                return NotFound();
+            }
+            return Ok(login);
+        }
+
 
         [HttpPatch("softdelete/{id}")]
         public async Task<ActionResult> SoftDelete(Guid id)
@@ -68,5 +86,7 @@ namespace HR_Api.Controllers
             await repo.SoftDelete(id);
             return Ok();
         }
+
+        
     }
 }

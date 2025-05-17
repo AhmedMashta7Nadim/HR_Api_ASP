@@ -9,6 +9,6 @@ namespace Auth.Authentication_Models
 {
     public interface ITokenServices
     {
-       Task<string> GeneretorToken(Account User);
+       Task<string> GeneretorToken(LogIn User);
     }
 }

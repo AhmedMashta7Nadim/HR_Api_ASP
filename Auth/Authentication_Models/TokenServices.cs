@@ -1,5 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using InfraStractur.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Models.Model;
 
@@ -7,8 +9,26 @@ namespace Auth.Authentication_Models
 {
     public class TokenServices : ITokenServices
     {
-        public async Task<string> GeneretorToken(Account user)
+        private readonly HR_Connect context;
+
+        public TokenServices()
         {
+
+        }
+        public TokenServices(HR_Connect context)
+        {
+            this.context = context;
+        }
+        public async Task<string> GeneretorToken(LogIn userLogIn)
+        {
+
+            var user = await context.accounts.FirstOrDefaultAsync(
+                    x => x.UserName == userLogIn.UserName && x.Password == userLogIn.Password
+                    );
+            if (user == null)
+            {
+                return null;
+            }
             var claimsLista = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub,user.UserName),

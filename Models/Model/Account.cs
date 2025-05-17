@@ -11,4 +11,11 @@ namespace Models.Model
         public Guid EmployeeId { get; set; }
         public Employee? Employee { get; set; }
     }
+
+    public class LogIn
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+
+    }
 }

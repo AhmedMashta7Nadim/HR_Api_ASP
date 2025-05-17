@@ -5,6 +5,7 @@ using Models.Model;
 using Models.Summary;
 using InfraStractur.Repository.GenericRepository;
 using InfraStractur.Repository.RepositoryModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HR_Api.Controllers
 {
@@ -19,7 +20,7 @@ namespace HR_Api.Controllers
             this.repository = repository;
         }
 
-        // Get all employees (summary or full)
+        [Authorize(Roles ="Admin")]
         [HttpGet]
         public async Task<ActionResult<List<EmployeeSummary>>> GetEmployees([FromQuery] bool isSummary = true)
         {

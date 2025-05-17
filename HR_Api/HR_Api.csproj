@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Auth\Auth.csproj" />
-    <ProjectReference Include="..\InfraStractur\InfraStractur.csproj" />
   </ItemGroup>
 
 </Project>

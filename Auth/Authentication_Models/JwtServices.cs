@@ -9,7 +9,7 @@ namespace Auth.Authentication_Models
     public static class JwtServices
     {
         private const string Key = "77777777777777999999999999999999888888888888887777777777asaskckjskcbksdckbckbkscc";
-        internal const string DominServer = "https://localhost:7223";
+        internal const string DominServer = "https://localhost:7026";
         public static TokenValidationParameters GetValidationParameters()
         {
             return new TokenValidationParameters
