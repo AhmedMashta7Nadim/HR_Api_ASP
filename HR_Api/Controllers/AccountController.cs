@@ -28,6 +28,22 @@ namespace HR_Api.Controllers
             this.repo = repo;
             this.token = token;
         }
+        [HttpGet("EmployeeAccount/{Id}")]
+        public async Task<ActionResult<(AccountSummary, EmployeeSummary)>> getDataEmployee(Guid Id)
+        {
+            var request = await repo.getEmolyeeWithAccount<AccountSummary, EmployeeSummary>(Id);
+            if (request == default)
+            {
+                return NotFound();
+            }
+        object data = new
+        {
+            Account= request.Item1,
+            Employee= request.Item2
+        };
+            return Ok(data);
+        }
+
 
         [HttpGet]
         public async Task<ActionResult<List<AccountSummary>>> GetAll()
