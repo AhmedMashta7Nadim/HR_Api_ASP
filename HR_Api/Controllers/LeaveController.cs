@@ -41,7 +41,7 @@ namespace HR_Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Add([FromForm] LeaveDTO data)
         {
-            await repo.AddData(data);
+            await repo.UploadImage(data);
             return Ok();
         }
 
