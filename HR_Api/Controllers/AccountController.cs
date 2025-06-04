@@ -85,14 +85,14 @@ namespace HR_Api.Controllers
             return Ok();
         }
         [HttpPost("LogIn")]
-        public async Task<ActionResult> LogIn(LogIn logIn)
+        public async Task<ActionResult> LogIn([FromForm]LogIn logIn)
         {
             var login = await token.GeneretorToken(logIn);
             if(login == null)
             {
                 return NotFound();
             }
-            return Ok(login);
+            return Ok(new { token = login });
         }
 
 

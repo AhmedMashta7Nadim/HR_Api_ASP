@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using InfraStractur.Repository.RepositoryModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
-using Models.Model;
 using Models.Summary;
-using InfraStractur.Repository.GenericRepository;
-using InfraStractur.Repository.RepositoryModels;
-using Microsoft.AspNetCore.Authorization;
 
 namespace HR_Api.Controllers
 {
@@ -20,7 +18,7 @@ namespace HR_Api.Controllers
             this.repository = repository;
         }
 
-        [Authorize(Roles ="Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<List<EmployeeSummary>>> GetEmployees([FromQuery] bool isSummary = true)
         {
@@ -38,6 +36,14 @@ namespace HR_Api.Controllers
 
             return Ok(employee);
         }
+
+        [HttpGet("GetEmployeeLength")]
+        public async Task<ActionResult<int>> getEmployeeLength()
+        {
+            var getLength = await repository.getLengthEmployee();
+            return getLength;
+        }
+
 
         // Add new employee
         [HttpPost]

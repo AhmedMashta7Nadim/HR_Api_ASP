@@ -37,7 +37,16 @@ namespace HR_Api
                 {
                     options.TokenValidationParameters = JwtServices.GetValidationParameters();
                 });
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularApp",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:4200")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+            });
             //builder.Services.AddAuthentication(options =>
             //{
             //    options.DefaultAuthenticateScheme = "Bearer";
@@ -64,6 +73,7 @@ namespace HR_Api
                 app.UseSwaggerUI();
                 app.MapOpenApi();
             }
+            app.UseCors("AllowAngularApp");
 
             app.UseHttpsRedirection();
 

@@ -29,6 +29,14 @@ namespace HR_Api.Controllers
             return Ok(list);
         }
 
+        [HttpGet("getDepartmintLength")]
+        public async Task<ActionResult<int>> getLengthDepartmint()
+        {
+            var getDepartmintCount = await repo.getLength_departmint();
+            return getDepartmintCount;
+        }
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<DepartmentDTO>> GetById(Guid id)
         {
