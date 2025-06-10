@@ -28,6 +28,13 @@ namespace HR_Api.Controllers
             var list = await repo.GetAsyncAll<DepartmentSummary>();
             return Ok(list);
         }
+        [HttpGet("getAndList")]
+        public async Task<ActionResult<List<Department>>> GetAllAndList()
+        {
+            var list = await repo.getListEmp();
+
+            return Ok(list);
+        }
 
         [HttpGet("getDepartmintLength")]
         public async Task<ActionResult<int>> getLengthDepartmint()
@@ -45,7 +52,6 @@ namespace HR_Api.Controllers
                 return NotFound();
             return Ok(item);
         }
-
         [HttpPost]
         public async Task<ActionResult> Add([FromForm] DepartmentDTO data)
         {

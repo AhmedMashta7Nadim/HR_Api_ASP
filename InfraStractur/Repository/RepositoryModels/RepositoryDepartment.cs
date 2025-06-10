@@ -27,5 +27,13 @@ namespace InfraStractur.Repository.RepositoryModels
             var getLength = await context.departments.ToListAsync();
             return getLength.Count;
         }
+
+        public async Task<List<Department>> getListEmp()
+        {
+            var getEmp = await context.departments.
+                Include(x=>x.employees)
+                .ToListAsync();
+            return getEmp;
+        }
     }
 }

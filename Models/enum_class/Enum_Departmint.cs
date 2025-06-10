@@ -10,6 +10,7 @@ namespace Models.enum_class
     {
         HR,
         accountant, // محاسب
-        TimeMonitor // مراقب دوام 
+        TimeMonitor, // مراقب دوام 
+        Employee
     }
 }
