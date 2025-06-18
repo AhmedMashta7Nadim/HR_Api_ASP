@@ -31,6 +31,8 @@ namespace Auth.Authentication_Models
             }
             var claimsLista = new[]
             {
+                //new Claim(ClaimTypes.Role, "Admin"),
+
                 new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
                 new Claim("EmployeeId",user.EmployeeId.ToString()),
                 new Claim(ClaimTypes.Role,user.Role.ToString()),

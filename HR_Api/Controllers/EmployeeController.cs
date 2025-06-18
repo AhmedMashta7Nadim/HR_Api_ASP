@@ -12,14 +12,18 @@ namespace HR_Api.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly RepositoryEmployee repository;
+        private readonly ILogger<EmployeeController> logger;
 
-        public EmployeeController(RepositoryEmployee repository)
+        public EmployeeController(
+            RepositoryEmployee repository,
+            ILogger<EmployeeController> logger)
         {
             this.repository = repository;
+            this.logger = logger;
         }
 
-        //[Authorize(Roles = "Admin")]
         [HttpGet]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult<List<EmployeeSummary>>> GetEmployees([FromQuery] bool isSummary = true)
         {
             var result = await repository.GetAsyncAll<EmployeeSummary>(isSummary);
