@@ -8,7 +8,7 @@ using Models.Entitys;
 
 namespace Models.Model
 {
-    public class Attendence: EntityClass //الحضور والانصراف 
+    public class Attendence: EntityClass
     {
         public DateTime InDate { get; set; }
         public DateTime OutDate { get; set; }

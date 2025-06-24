@@ -23,7 +23,7 @@ namespace HR_Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "User")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<EmployeeSummary>>> GetEmployees([FromQuery] bool isSummary = true)
         {
             var result = await repository.GetAsyncAll<EmployeeSummary>(isSummary);

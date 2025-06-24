@@ -15,10 +15,12 @@ namespace HR_Api
 
             // Add services to the container.
             builder.Services.AddDbContext<HR_Connect>();
-            builder.Services.AddControllers().AddJsonOptions(x =>
-            {
-                x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-            });
+            builder.Services.AddControllers()
+               .AddNewtonsoftJson(options =>
+               {
+                   options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+               });
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 

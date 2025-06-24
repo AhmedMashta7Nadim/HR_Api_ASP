@@ -13,6 +13,7 @@ namespace Models.Summary
         public decimal NetSalary { get; set; }
         public decimal Adjustment { get; set; }
         public DateTime SalaryDate { get; set; }
+        public bool IsReceiveSalary { get; set; } = false;
         public Guid EmployeeId { get; set; }
     }
 }

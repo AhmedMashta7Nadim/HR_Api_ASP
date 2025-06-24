@@ -16,10 +16,15 @@ namespace HR_Api.Controllers
     public class AttendenceController : ControllerBase
     {
         private readonly RepositoryAttendence repo;
+        private readonly RepositoryEmployee repo_Emp;
 
-        public AttendenceController(RepositoryAttendence repo)
+        public AttendenceController(
+            RepositoryAttendence repo,
+            RepositoryEmployee repo_emp
+            )
         {
             this.repo = repo;
+            repo_Emp = repo_emp;
         }
 
         [HttpGet]
@@ -28,7 +33,33 @@ namespace HR_Api.Controllers
             var list = await repo.GetAsyncAll<AttendenceSummary>();
             return Ok(list);
         }
+        [HttpGet("getWithDate")]
+        public async Task<ActionResult<object>> GetAsyncAttendence()
+        {
+            var get = await repo.GetAsyncAttendenceSummary(DateTime.UtcNow);
 
+            var get_emp = new List<EmployeeSummary>();
+            foreach (var item in get)
+            {
+                var emp = await repo_Emp.GetAsyncId<EmployeeSummary>(item.EmployeeId);
+                get_emp.Add(emp);
+            }
+
+            var result = new
+            {
+                attendances = get,
+                employees = get_emp
+            };
+
+            return Ok(result);
+        }
+
+        [HttpGet("getLengthAttends")]
+        public async Task<ActionResult<int>> getLengthAttendas()
+        {
+            var len= await repo.getLength();
+            return Ok(len);
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<AttendenceDTO>> GetById(Guid id)
         {

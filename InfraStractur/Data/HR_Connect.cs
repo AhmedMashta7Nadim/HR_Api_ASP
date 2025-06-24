@@ -21,7 +21,7 @@ namespace InfraStractur.Data
             base.OnConfiguring(optionsBuilder);
 
 
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=HR_Api_2;");
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=HR_Api_3;");
         }
 
         protected override async void OnModelCreating(ModelBuilder modelBuilder)

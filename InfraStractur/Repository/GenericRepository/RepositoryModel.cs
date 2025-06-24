@@ -95,7 +95,7 @@ namespace InfraStractur.Repository.GenericRepository
         {
             if (patchDoc == null)
                 throw new ArgumentNullException(nameof(patchDoc));
-            var entity = await context.Set<T>().FindAsync(id);
+            var entity = await context.Set<T>().FirstOrDefaultAsync(x=>x.Id== id);
             if (entity == null)
                 throw new KeyNotFoundException($"Entity with Id {id} not found.");
             var dto = mapper.Map<Z>(entity);

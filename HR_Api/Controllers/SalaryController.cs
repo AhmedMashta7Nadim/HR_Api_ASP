@@ -26,7 +26,8 @@ namespace HR_Api.Controllers
         public async Task<ActionResult<List<SalarySummary>>> GetAll()
         {
             var list = await repo.GetAsyncAll<SalarySummary>();
-            return Ok(list);
+            var x= list.Where(x=>x.IsReceiveSalary==false);
+            return Ok(x);
         }
 
         [HttpGet("{id}")]

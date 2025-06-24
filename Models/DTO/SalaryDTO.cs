@@ -12,5 +12,7 @@ namespace Models.DTO
         public decimal NetSalary { get; set; }
         public decimal Adjustment { get; set; }
         public Guid EmployeeId { get; set; }
+        public bool IsReceiveSalary { get; set; }
+
     }
 }

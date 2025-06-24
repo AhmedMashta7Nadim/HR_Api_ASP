@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Models.Entitys;
 
 namespace Models.Model
@@ -13,8 +14,10 @@ namespace Models.Model
 
         // التعديل على الراتب (مكافآت أو خصومات)
         public decimal Adjustment { get; set; }
-        public DateTime SalaryDate { get; set; } = DateTime.Now;
+        public bool IsReceiveSalary { get; set; } = false;
+        public DateTime SalaryDate { get; set; } = DateTime.UtcNow;
         public Guid EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        [NotMapped]
+        public Employee? Employee { get; set; }
     }
 }
