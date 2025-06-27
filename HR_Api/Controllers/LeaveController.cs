@@ -26,6 +26,9 @@ namespace HR_Api.Controllers
         public async Task<ActionResult<List<LeaveSummary>>> GetAll()
         {
             var list = await repo.GetAsyncAll<LeaveSummary>();
+            list.Where(x =>
+                x.IsActive == true && x.IsState == false
+            );
             return Ok(list);
         }
 
@@ -39,9 +42,9 @@ namespace HR_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add([FromForm] LeaveDTO data)
+        public async Task<ActionResult> Add([FromForm] LeaveObject data)
         {
-            await repo.UploadImage(data);
+            await repo.isExistEmpId(data);
             return Ok();
         }
 

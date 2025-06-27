@@ -16,5 +16,15 @@ namespace Models.DTO
         public DateTime EndDate { get; set; }
         public IFormFile? File { get; set; }
         public Guid EmployeeId { get; set; }
+        public bool IsState { get; set; } = false;
+
+    }
+    public class LeaveObject
+    {
+        public Enum_TypeLeave Type { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public IFormFile? File { get; set; }
+        public string EmployeeId { get; set; }
     }
 }

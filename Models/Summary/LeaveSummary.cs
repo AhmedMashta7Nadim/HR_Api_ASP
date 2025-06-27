@@ -15,7 +15,7 @@ namespace Models.Summary
         public Enum_TypeLeave Type { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public bool IsState { get; set; } = false;
+        public bool IsState { get; set; }
         public string? Path { get; set; }
         public Guid EmployeeId { get; set; }
     }

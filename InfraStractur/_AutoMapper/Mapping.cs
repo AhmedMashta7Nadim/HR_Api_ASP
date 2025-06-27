@@ -16,6 +16,7 @@ namespace InfraStractur._AutoMapper
             CreateMap<Salary, SalarySummary>().ReverseMap();
 
             CreateMap<Leave, LeaveDTO>().ReverseMap();
+            CreateMap<LeaveObject, LeaveDTO>().ReverseMap();
             CreateMap<Leave, LeaveSummary>().ReverseMap();
 
             CreateMap<Evaluation, EvaluationDTO>().ReverseMap();

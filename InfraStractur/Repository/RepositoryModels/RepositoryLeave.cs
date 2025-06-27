@@ -7,6 +7,7 @@ using AutoMapper;
 using InfraStractur.Data;
 using InfraStractur.Repository.GenericRepository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Models.DTO;
 using Models.Model;
 using Models.Summary;
@@ -26,9 +27,37 @@ namespace InfraStractur.Repository.RepositoryModels
             this.context = context;
             this.mapper = mapper;
         }
-
+        public  async  Task<LeaveDTO> isExistEmpId(LeaveObject leaveObject)
+        {
+            var IsExist =
+                await context.accounts
+                .FirstOrDefaultAsync
+                (x => x.UserName == leaveObject.EmployeeId);
+                    if (IsExist == null)
+                    {
+                        return null;
+                    }
+            //var y = Guid.Parse(leaveObject.EmployeeId
+            leaveObject.EmployeeId = IsExist.EmployeeId.ToString();
+            Guid qqw = Guid.Parse(leaveObject.EmployeeId);
+            //qqw = IsExist.EmployeeId;
+            //Guid.Parse(leaveObject.EmployeeId) = qqw;
+            var mapping = mapper.Map<LeaveDTO>(leaveObject);
+            await UploadImage(mapping);
+            return mapping;
+        }
         public async Task<string> UploadImage(LeaveDTO leaveDTO)
         {
+            //var IsExist =
+            //    await context.accounts
+            //    .FirstOrDefaultAsync
+            //    (x => x.UserName == leaveDTO.EmployeeId.ToString());
+            //if (IsExist == null)
+            //{
+            //    return null;
+            //}
+
+            //leaveDTO.EmployeeId = IsExist.EmployeeId;
 
             var mapping=mapper.Map<Leave>(leaveDTO);
 
