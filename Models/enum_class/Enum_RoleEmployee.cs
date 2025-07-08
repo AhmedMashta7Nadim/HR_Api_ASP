@@ -9,6 +9,8 @@ namespace Models.enum_class
     public enum Enum_RoleEmployee
     {
         Admin,
+        Hr,
+        Permanent,
         User
     }
 }

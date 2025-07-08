@@ -4,6 +4,7 @@ using InfraStractur.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InfraStractur.Migrations
 {
     [DbContext(typeof(HR_Connect))]
-    partial class HR_ConnectModelSnapshot : ModelSnapshot
+    [Migration("20250628165432_eval")]
+    partial class eval
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,9 +210,6 @@ namespace InfraStractur.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AllDates_e")
-                        .HasColumnType("int");
 
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");

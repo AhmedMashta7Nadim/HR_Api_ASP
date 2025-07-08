@@ -18,5 +18,6 @@ namespace Models.Summary
         public bool IsState { get; set; }
         public string? Path { get; set; }
         public Guid EmployeeId { get; set; }
+
     }
 }

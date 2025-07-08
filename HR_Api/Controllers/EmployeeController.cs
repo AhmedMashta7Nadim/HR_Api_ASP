@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
+using Models.Model;
 using Models.Summary;
 
 namespace HR_Api.Controllers
@@ -23,12 +24,19 @@ namespace HR_Api.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<EmployeeSummary>>> GetEmployees([FromQuery] bool isSummary = true)
         {
             var result = await repository.GetAsyncAll<EmployeeSummary>(isSummary);
             return Ok(result);
         }
+
+        [HttpGet("getAndListWithId")]
+        public async Task<ActionResult<Employee>> getAndList_emp(Guid id)
+        {
+            var get = await repository.getAndList(id);
+            return Ok(get);
+        }
+
 
         // Get employee by ID (summary or full)
         [HttpGet("{id}")]
@@ -40,7 +48,7 @@ namespace HR_Api.Controllers
 
             return Ok(employee);
         }
-
+        [Authorize(Roles = "Admin,Hr")]
         [HttpGet("GetEmployeeLength")]
         public async Task<ActionResult<int>> getEmployeeLength()
         {
@@ -48,8 +56,7 @@ namespace HR_Api.Controllers
             return getLength;
         }
 
-
-        // Add new employee
+        [Authorize(Roles = "Admin,Hr")]
         [HttpPost]
         public async Task<ActionResult> AddEmployee([FromForm] EmployeeDTO employeeDTO)
         {
@@ -59,8 +66,7 @@ namespace HR_Api.Controllers
             await repository.AddData(employeeDTO);
             return Ok("Employee added successfully.");
         }
-
-        // Delete employee permanently
+        [Authorize(Roles = "Admin,Hr")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEmployee(Guid id)
         {
@@ -74,8 +80,7 @@ namespace HR_Api.Controllers
                 return NotFound();
             }
         }
-
-        // Soft delete employee (set IsDeleted = true)
+        [Authorize(Roles = "Admin,Hr")]
         [HttpPatch("soft-delete/{id}")]
         public async Task<ActionResult> SoftDeleteEmployee(Guid id)
         {
@@ -89,8 +94,7 @@ namespace HR_Api.Controllers
                 return NotFound();
             }
         }
-
-        // Update employee using PATCH
+        [Authorize(Roles = "Admin,Hr")]
         [HttpPatch("{id}")]
         public async Task<ActionResult> UpdateEmployee(Guid id, [FromBody] JsonPatchDocument<EmployeeDTO> patchDoc)
         {

@@ -10,11 +10,22 @@ using Models.enum_class;
 
 namespace Models.Model
 {
-    public class Leave:EntityClass //الإجازات
+    public class Leave:EntityClass 
     {
         public Enum_TypeLeave Type { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public int AllDates_e
+        {
+            get
+            {
+                return (EndDate - StartDate).Days;
+            }
+            set
+            {
+
+            }
+        }
         public bool IsState { get; set; } = false;
         public string? Path { get; set; }
         [NotMapped] 

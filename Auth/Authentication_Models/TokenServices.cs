@@ -35,6 +35,7 @@ namespace Auth.Authentication_Models
 
                 new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
                 new Claim("EmployeeId",user.EmployeeId.ToString()),
+                new Claim("Role",user.Role.ToString()),
                 new Claim(ClaimTypes.Role,user.Role.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
             };

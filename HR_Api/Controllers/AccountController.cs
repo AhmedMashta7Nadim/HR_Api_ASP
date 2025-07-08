@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using InfraStractur.Repository.RepositoryModels;
 using Auth.Authentication_Models;
 using InfraStractur.Migrations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HR_Api.Controllers
 {
@@ -60,9 +61,9 @@ namespace HR_Api.Controllers
                 return NotFound();
             return Ok(item);
         }
-
+        [Authorize(Roles = "Admin,Hr")]
         [HttpPost]
-        public async Task<ActionResult> Add([FromForm] AccountDTO data)
+        public async Task<ActionResult> Add( AccountDTO data)
         {
             await repo.AddData(data);
             return Ok();

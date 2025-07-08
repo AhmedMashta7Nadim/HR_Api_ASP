@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using InfraStractur.Data;
 using InfraStractur.Repository.GenericRepository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Models.DTO;
 using Models.Model;
@@ -27,16 +21,21 @@ namespace InfraStractur.Repository.RepositoryModels
             this.context = context;
             this.mapper = mapper;
         }
-        public  async  Task<LeaveDTO> isExistEmpId(LeaveObject leaveObject)
+        public async Task<object> isExistEmpId(LeaveObject leaveObject)
         {
             var IsExist =
                 await context.accounts
                 .FirstOrDefaultAsync
                 (x => x.UserName == leaveObject.EmployeeId);
-                    if (IsExist == null)
-                    {
-                        return null;
-                    }
+            if (IsExist == null)
+            {
+                return null;
+            }
+           var ixestDay= await getAllDate(IsExist.EmployeeId, leaveObject.StartDate, leaveObject.EndDate);
+           if(ixestDay == false)
+            {
+                return "No";
+            }
             //var y = Guid.Parse(leaveObject.EmployeeId
             leaveObject.EmployeeId = IsExist.EmployeeId.ToString();
             Guid qqw = Guid.Parse(leaveObject.EmployeeId);
@@ -59,7 +58,7 @@ namespace InfraStractur.Repository.RepositoryModels
 
             //leaveDTO.EmployeeId = IsExist.EmployeeId;
 
-            var mapping=mapper.Map<Leave>(leaveDTO);
+            var mapping = mapper.Map<Leave>(leaveDTO);
 
             if (leaveDTO == null || leaveDTO.File.Length == 0)
                 return "No file selected.";
@@ -77,14 +76,34 @@ namespace InfraStractur.Repository.RepositoryModels
                 await mapping.File.CopyToAsync(stream);
             }
             string imageUrl = $"/uploads/{uniqueFileName}";
-                mapping.Path = imageUrl;
+            mapping.Path = imageUrl;
 
             await context.leaves.AddAsync(mapping);
             await context.SaveChangesAsync();
             return imageUrl;
         }
 
+        public async Task<List<LeaveSummary>> getWithLeavelDate()
+        {
+            var get = await context.leaves.Where(x =>
+            x.EndDate > DateTime.UtcNow
+            && x.IsState == true
+            && x.IsActive == true).ToListAsync();
+            var mapping = mapper.Map<List<LeaveSummary>>(get);
+            return mapping;
+        }
 
+        public async Task<bool> getAllDate(Guid id, DateTime start, DateTime end)
+        {
 
+            var get = await context.employees
+                            .Include(x => x.leaves.Where(x => x.IsActive == true))
+                            .FirstOrDefaultAsync(x => x.Id == id);
+
+            var length = get.leaves.Sum(x => x.AllDates_e);
+            TimeSpan s_e = end - start;
+            var sum = length + s_e.Days > 20 ? false : true;
+            return sum;
+        }
     }
 }

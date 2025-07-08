@@ -10,5 +10,7 @@ namespace Models.DTO
     {
         public string? Commints { get; set; }
         public Guid EmployeeId { get; set; }
+        public int Eval { get; set; }
+
     }
 }

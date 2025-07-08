@@ -16,7 +16,9 @@ namespace Models.DTO
         public DateTime EndDate { get; set; }
         public IFormFile? File { get; set; }
         public Guid EmployeeId { get; set; }
-        public bool IsState { get; set; } = false;
+        public bool IsState { get; set; }
+        public bool? IsActive { get; set; } = true;
+
 
     }
     public class LeaveObject

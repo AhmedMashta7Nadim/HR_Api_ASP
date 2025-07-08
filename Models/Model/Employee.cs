@@ -15,7 +15,7 @@ namespace Models.Model
         public Account? Account { get; set; }
         [NotMapped]
         public Department? Department { get; set; }
-        public DateTime AddedEmployee { get; set; } = DateTime.UtcNow; //اضافة تاريخ اضافة الموظف تلقائيا
+        public DateTime AddedEmployee { get; set; } = DateTime.UtcNow;
         public List<Evaluation> evaluations { get; set; } = new List<Evaluation>();
         public List<Attendence> attendences { get; set; } = new List<Attendence>();
         public List<Leave> leaves { get; set; } = new List<Leave>();

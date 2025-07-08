@@ -12,6 +12,7 @@ namespace Models.Model
     {
         public string? Commints { get; set; }
         public DateTime EvalDate { get; set; } = DateTime.UtcNow; // تاريخ التقييم
+        public required int Eval { get; set; }
         public Guid EmployeeId { get; set; }
         [NotMapped]
         public Employee? Employee { get; set; }

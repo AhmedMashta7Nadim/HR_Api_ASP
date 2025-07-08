@@ -35,5 +35,20 @@ namespace InfraStractur.Repository.RepositoryModels
                 .ToListAsync();
             return getEmp;
         }
+
+        public async Task<Department> GetDepartmentAsnListEmployee(Guid guid)
+        {
+            var get=await context.departments
+                .Include(x => x.employees)
+                .FirstOrDefaultAsync(x=>x.Id==guid);
+
+            if (get == null)
+            {
+                return null;
+
+            }
+            return get;
+        }
+
     }
 }
